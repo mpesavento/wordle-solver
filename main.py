@@ -75,14 +75,18 @@ def check_unpositioned_letters(words, unpositioned_letters):
 
     # then only keep the words that has ALL the unpositioned letters
     find_letters = unpositioned_letters.replace(".", "").lower()
-    has_letters_matcher = re.compile("|".join(find_letters))
-    matches = [has_letters_matcher.findall(w) for w in words]  # word_matches
-    has_letters_matches = [w for w, match in zip(words, matches) if len(match) == len(find_letters)]
+    # has_letters_matcher = re.compile("".join(find_letters))
+    # matches = [has_letters_matcher.findall(w) for w in words]  # word_matches
+    # has_letters_matches = [w for w, match in zip(words, matches) if len(match) == len(find_letters)]
+    matches = [all([ltr in word for ltr in find_letters]) for word in words]
+    has_letters_matches = [w for w, match in zip(words, matches) if match]
 
     final_matches = list(set(word_matches).intersection(set(has_letters_matches)))
 
     return final_matches
 
+def all_letters_in_word(word, letters):
+    return all([ltr in word for ltr in letters])
 
 
 def main():
